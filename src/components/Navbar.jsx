@@ -12,18 +12,9 @@ import {
   Box,
 } from "@mui/material";
 import { Search, ShoppingCart, Person, Logout, Menu as MenuIcon } from "@mui/icons-material";
-import { getAuth, signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const auth = getAuth();
-  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    navigate("/login");
-  };
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -41,7 +32,7 @@ const Navbar = () => {
           MiTienda
         </Typography>
 
-        {/* Search Bar (solo visible en pantallas grandes) */}
+        {/* Search Bar */}
         <Box
           sx={{
             display: { xs: "none", md: "flex" },
@@ -58,7 +49,7 @@ const Navbar = () => {
 
         {/* Iconos y Menú */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          {/* Menú hamburguesa en móviles (☰) */}
+          {/* Menú hamburguesa en móviles */}
           <IconButton sx={{ display: { xs: "flex", md: "none" } }} onClick={handleMenuOpen}>
             <MenuIcon />
           </IconButton>
@@ -75,17 +66,17 @@ const Navbar = () => {
             <Person />
           </IconButton>
 
-          {/* Botón de Cerrar Sesión (solo visible en pantallas grandes) */}
+          {/* Botón de Cerrar Sesión (NO HACE NADA) */}
           <Button
             variant="contained"
             color="secondary"
             startIcon={<Logout />}
-            onClick={handleLogout}
             sx={{
               backgroundColor: "#f44336",
               color: "#fff",
               display: { xs: "none", md: "flex" },
             }}
+            onClick={() => {}} // Función vacía, no hace nada
           >
             Cerrar Sesión
           </Button>
@@ -96,9 +87,10 @@ const Navbar = () => {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
-          sx={{ display: { xs: "block", md: "none" } }} // Asegurar que el menú aparece en móviles
+          sx={{ display: { xs: "block", md: "none" } }}
         >
-          <MenuItem onClick={handleLogout}>
+          {/* Opción de Cerrar Sesión en el Menú móvil (NO HACE NADA) */}
+          <MenuItem onClick={handleMenuClose}>
             <Logout sx={{ marginRight: "10px" }} />
             Cerrar sesión
           </MenuItem>
